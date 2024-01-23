@@ -31,8 +31,8 @@ class cicero:
             sc.tl.umap(self.adata,n_components=2)
         else:
             raise ValueError('reduce must be tsne or umap')
-        self.umap=self.adata.obsm['X_umap']
-        self.cluster=KMeans(n_clusters=self.umap.shape[0]//50,random_state=0).fit_predict(self.umap)
+        umap=self.adata.obsm['X_umap']
+        self.cluster=KMeans(n_clusters=umap.shape[0]//50,random_state=0).fit_predict(self.umap)
         group = []
         for i in range(0,self.cluster.max()+1):
             indices = np.where(self.cluster == i)
@@ -40,3 +40,11 @@ class cicero:
         self.group=anndata.AnnData(X=np.array(group))
         sc.pp.normalize_total(self.group, target_sum=1e4)
         print('init done')
+    
+    '''
+    parameters:
+        covmethod:str,{'empirical','graphical_lasso','ledoit_wolf','oas','shrunk','exact'},default='graphical lasso'
+        method of covariance estimation
+    '''
+    def runcicero(self,covmethod='graphical_lasso'):
+        
