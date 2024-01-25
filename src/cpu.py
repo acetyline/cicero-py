@@ -126,6 +126,3 @@ class cicero:
         sc.pp.normalize_total(self.group, target_sum=1e4)
         print('init done')
     
-    
-    def runcicero(self,covmethod='graphical_lasso'):
-        graphical=skc.GraphicalLasso()
